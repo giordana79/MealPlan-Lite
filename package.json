@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "dev:hmr": "rm -rf .next/cache/webpack && next dev"
   },
   "dependencies": {
     "react": "19.1.0",
