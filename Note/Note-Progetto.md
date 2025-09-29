@@ -96,6 +96,7 @@ In questo modo il client, parla solo con /api/search.
 
 mealplan salvato nel localStorage:
 
-`mealplan:plan {"monday":{"lunch":"52844","dinner":"53065"},"tuesday":{"lunch":"53086","dinner":null},}`
+```mealplan:plan {"monday":{"lunch":"52844","dinner":"53065"},"tuesday":{"lunch":"53086","dinner":null},}```
+```mealplan:favorites ["53086","52844","53065"]```
 
-`mealplan:favorites ["53086","52844","53065"]`
+[Link Vercel](https://meal-plan-lite.vercel.app/)
