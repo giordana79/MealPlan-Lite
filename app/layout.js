@@ -12,17 +12,18 @@ export default function RootLayout({ children }) {
     <html lang="it">
       <body>
         <header className="header">
-          <div className="container">
+          <div className="container header-container">
             <h1 className="brand">
               <Link href="/">MealPlan</Link>
             </h1>
-            {/* Qui appare il pulsante con icona */}
-            <ThemeToggle />
-            <nav>
+
+            <nav className="nav-links">
               <Link href="/">Home</Link>
               <Link href="/plan">Piano</Link>
               <Link href="/favorites">Preferiti</Link>
             </nav>
+
+            <ThemeToggle />
           </div>
         </header>
         <main className="container">{children}</main>

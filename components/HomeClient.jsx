@@ -1,7 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ClientSearch from "./ClientSearch";
+
+//Vedi Nota
+function safeText(val) {
+  if (typeof val === "string" || typeof val === "number") return String(val);
+  if (val === null || val === undefined) return "";
+  return JSON.stringify(val);
+}
 
 export default function HomeClient({ categories }) {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -9,32 +16,31 @@ export default function HomeClient({ categories }) {
 
   return (
     <div>
-      <div style={{ marginBottom: "1rem" }}>
-        {/* Barra di ricerca */}
-        <input
-          type="text"
-          placeholder="Cerca ricetta..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          style={{ padding: "8px", width: "60%" }}
-        />
-
-        {/* Filtro categorie */}
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          style={{ marginLeft: "1rem", padding: "8px" }}
-        >
-          <option value="">Tutte le categorie</option>
-          {categories.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
+      <div style={{ marginBottom: "2rem" }}>
+        <div className="controls">
+          <input
+            type="text"
+            placeholder="Cerca ricetta..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">Tutte le categorie</option>
+            {categories.map((c, idx) => {
+              const label = safeText(c);
+              return (
+                <option key={idx} value={label}>
+                  {label}
+                </option>
+              );
+            })}
+          </select>
+        </div>
       </div>
 
-      {/* Risultati ricerca */}
       <ClientSearch q={query} category={selectedCategory} />
     </div>
   );

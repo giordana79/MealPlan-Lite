@@ -96,7 +96,14 @@ In questo modo il client, parla solo con /api/search.
 
 mealplan salvato nel localStorage:
 
-```mealplan:plan {"monday":{"lunch":"52844","dinner":"53065"},"tuesday":{"lunch":"53086","dinner":null},}```
-```mealplan:favorites ["53086","52844","53065"]```
+`mealplan:plan {"monday":{"lunch":"52844","dinner":"53065"},"tuesday":{"lunch":"53086","dinner":null},}`
 
-[Link Vercel](https://meal-plan-lite.vercel.app/)
+`mealplan:favorites ["53086","52844","53065"]`
+
+**Riassunto**
+
+Server (App Router) → fetch dati esterni (categorie, dettaglio ricette).
+API interna → semplifica il client e centralizza la logica.
+Client Components → gestiscono interattività (useState, localStorage).
+Persistenza → preferiti e piano settimanale in localStorage.
+Tema → switch moderno con persistenza.

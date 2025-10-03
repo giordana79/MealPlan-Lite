@@ -1,120 +1,474 @@
+/*
+   Modern, responsive & accessible global styles for MealPlan Lite
+   - Light/Dark theme via [data-theme="dark"] on <html>
+   - Strong focus styles for keyboard users
+   - Responsive grid / cards / mini-cards
+   - Accessible form controls
+   - Skip-to-content link
+   - Reduced-motion support
+*/
+
+/* ---------------- Reset & base ---------------- */
+
+/* Variabili globali */
 :root {
-  --maxw: 1100px;
-  --accent: #e67e22;
+  --base-font:
+    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial; /* Font principale */
+  --font-size-base: 16px; /* Dimensione base font */
+
+  /* Tema chiaro */
+  --background: linear-gradient(
+    135deg,
+    #f9f9f9 0%,
+    #ececec 100%
+  ); /* Sfondo globale */
+  --surface: #ffffff; /* Superfici card/pannelli */
+  --foreground: #0f172a; /* Colore testo principale */
+  --muted: #6b7280; /* Colore testo secondario */
+  --accent: #2563eb; /* Colore accent / link / bottoni */
+  --accent-600: #1d4ed8; /* Variante più scura dell'accent */
+  --border: rgba(15, 23, 42, 0.06); /* Colore bordo sottile */
+  --card-bg: rgba(255, 255, 255, 0.9); /* Sfondo card semi-trasparente */
+  --shadow: 0 6px 18px rgba(11, 20, 30, 0.06); /* Ombra base */
+  --shadow-focus: 0 8px 24px rgba(37, 99, 235, 0.12); /* Ombra focus bottoni/input */
+  --nav-text: #0f172a; /* Colore testo nav */
+
+  /* Header gradient */
+  --header-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.4)
+  );
+
+  /* Spaziatura */
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+
+  /* Stato */
+  --error-color: #b91c1c;
+  --success-bg: rgba(34, 197, 94, 0.12);
+  --success-color: #166534;
+  --error-bg: rgba(239, 68, 68, 0.12);
 }
-* {
-  box-sizing: border-box;
+
+/* Tema scuro */
+[data-theme="dark"] {
+  --background: linear-gradient(135deg, #06070a 0%, #0f172a 100%);
+  --surface: #0b1220;
+  --foreground: #a5aaaa;
+  --muted: #cbd5e1;
+  --accent: #3b82f6;
+  --accent-600: #60a5fa;
+  --border: rgba(255, 255, 255, 0.06);
+  --card-bg: rgba(20, 24, 34, 0.8);
+  --shadow: 0 8px 22px rgba(2, 6, 23, 0.7);
+  --nav-text: #e5e7eb;
+  --header-bg: linear-gradient(
+    180deg,
+    rgba(8, 10, 14, 0.6),
+    rgba(8, 10, 14, 0.4)
+  );
 }
+
+/* Riduzione animazioni per utenti con preferenza ridotta movimento */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------- Base HTML & Body ---------------- */
+html {
+  font-size: var(--font-size-base); /* Dimensione base font */
+  -webkit-text-size-adjust: 100%; /* Evita resize automatico mobile */
+  -webkit-font-smoothing: antialiased; /* Font più nitido WebKit */
+  -moz-osx-font-smoothing: grayscale; /* Font più nitido Firefox Mac */
+  background: var(--background); /* Sfondo globale */
+}
+
 body {
-  font-family: Inter, system-ui, Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #fafafa;
-  color: #222;
+  font-family: var(--base-font); /* Font principale */
+  color: var(--foreground); /* Colore testo */
+  margin: 0; /* Reset margini */
+  line-height: 1.5; /* Altezza linea leggibile */
+  min-height: 100vh; /* Altezza minima viewport */
+  transition:
+    background 0.3s ease,
+    color 0.3s ease; /* Transizione colore e background */
 }
-.container {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 16px;
-}
-.header {
-  background: #fff;
-  padding: 12px 0;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  margin-bottom: 18px;
-}
-.header .brand {
-  display: inline-block;
-  margin-right: 24px;
-  font-size: 20px;
-}
-.header nav a {
-  margin-right: 12px;
-  text-decoration: none;
-  color: inherit;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-}
-.card {
-  background: #fff;
-  border-radius: 10px;
+
+/* ---------------- Skip Link ---------------- */
+.skip-link {
+  position: absolute; /* Posizionato fuori layout */
+  left: -9999px; /* Nascosto */
+  top: auto;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
-.card img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
+.skip-link:focus {
+  left: 1rem; /* Visibile a focus */
+  top: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: white;
+  border-radius: 6px;
+  z-index: 9999;
+  text-decoration: none;
+  box-shadow: var(--shadow);
 }
-.card .body {
-  padding: 10px;
+
+/* ---------------- Typography ---------------- */
+h1,
+h2,
+h3,
+h4 {
+  color: var(--foreground);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.15;
+  font-weight: 700;
 }
-.pills {
-  display: inline-block;
-  background: #f2f2f2;
-  padding: 4px 8px;
-  border-radius: 999px;
-  font-size: 12px;
+
+/* Titolo h1 con gradiente */
+h1 {
+  font-size: 1.875rem; /* 30px */
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    var(--accent-600)
+  ); /* gradiente orizzontale */
+  /* standard (non ancora ampiamente supportato) */
+  background-clip: text; /* clip del gradiente sul testo */
+  /* Prefissi WebKit per Chrome, Safari, Edge */
+  -webkit-background-clip: text; /* compatibilità WebKit */
+  -webkit-text-fill-color: transparent; /* testo trasparente per vedere gradiente */
 }
+
+h2 {
+  font-size: 1.25rem;
+}
+h3 {
+  font-size: 1.125rem;
+}
+p {
+  margin: 0 0 1rem 0;
+}
+
+/* Links */
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:focus,
+a:hover {
+  text-decoration: underline;
+  outline: none;
+}
+
+/* ---------------- Utilities / Layout ---------------- */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.header {
+  backdrop-filter: blur(6px);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 0.75rem 0;
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 1.125rem;
+}
+.brand a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.nav-links a {
+  color: var(--nav-text);
+  font-weight: 600;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+.nav-links a:focus {
+  outline: 3px solid rgba(37, 99, 235, 0.18);
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nav-links {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+}
+
+/* ---------------- Forms & Controls ---------------- */
 .controls {
   display: flex;
-  gap: 8px;
+  gap: 0.75rem;
   align-items: center;
-  margin-bottom: 12px;
+  width: 100%;
+  flex-wrap: wrap;
 }
-.pagination {
+
+input[type="text"],
+select,
+textarea {
+  font: inherit;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--foreground);
+  min-height: 44px;
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.06s;
+}
+input[type="text"]::placeholder {
+  color: #94a3b8;
+}
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  box-shadow: var(--shadow-focus);
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* ---------------- Focus globale per accessibilità ---------------- */
+:focus {
+  outline: 3px solid rgba(37, 99, 235, 0.22);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* ---------------- Buttons ---------------- */
+button {
+  font: inherit;
+  padding: 0.6rem 0.95rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  background: var(--accent);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.14s ease,
+    background 0.14s ease;
+}
+button.ghost {
+  background: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+button:active {
+  transform: translateY(1px) scale(0.997);
+}
+button:focus {
+  box-shadow: var(--shadow-focus);
+}
+.btn-small {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.875rem;
+}
+
+/* ---------------- Grid & Cards ---------------- */
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 1rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+  overflow: hidden;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(2, 6, 23, 0.12);
+}
+.card .media {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+.card h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.05rem;
+}
+.card p.meta {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.mini {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 0.75rem;
+  align-items: center;
 }
-.table-plan {
+.mini .thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.mini .meta {
+  flex: 1;
+}
+.mini .meta h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.mini .meta p {
+  margin: 4px 0 0 0;
+  color: var(--muted);
+  font-size: 0.87rem;
+}
+
+/* ---------------- Tables & Feedback ---------------- */
+.table {
   width: 100%;
   border-collapse: collapse;
 }
-.table-plan td,
-.table-plan th {
-  border: 1px solid #eee;
-  padding: 8px;
-  vertical-align: top;
-  height: 120px;
+.table th,
+.table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
 }
-.small {
-  font-size: 13px;
-  color: #555;
+.table th {
+  font-weight: 700;
+  color: var(--muted);
 }
-.btn {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  padding: 8px 10px;
+
+.form-error {
+  color: var(--error-color);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+.feedback {
+  padding: 10px 14px;
   border-radius: 8px;
-  cursor: pointer;
+  font-weight: 600;
 }
-.btn.ghost {
-  background: transparent;
-  color: inherit;
-  border: 1px solid #ddd;
+.feedback.success {
+  background: var(--success-bg);
+  color: var(--success-color);
 }
-
-/* app/globals.css */
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.feedback.error {
+  background: var(--error-bg);
+  color: var(--error-color);
 }
 
-[data-theme="dark"] {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+/* ---------------- Utilities minori ---------------- */
+.text-muted {
+  color: var(--muted);
+}
+.align-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1rem 0;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  transition:
-    background 0.3s,
-    color 0.3s;
+/* ---------------- High Contrast / Accessibility ---------------- */
+@media (prefers-contrast: more) {
+  :root {
+    --card-bg: var(--surface);
+    --shadow: 0 8px 24px rgba(2, 6, 23, 0.2);
+  }
+}
+body.high-contrast {
+  background: #000;
+  color: #fff;
+}
+body.high-contrast a {
+  color: #9be3ff;
+}
+body.high-contrast .card {
+  border-color: #444;
+}
+
+/* ---------------- Responsive tweaks ---------------- */
+@media (max-width: 1024px) {
+  .card .media {
+    height: 180px;
+  }
+}
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  .card .media {
+    height: 160px;
+  }
+  .mini .thumb {
+    width: 72px;
+    height: 72px;
+  }
+}
+@media (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+  .card .media {
+    height: 140px;
+  }
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  .nav-links {
+    gap: 0.5rem;
+  }
 }

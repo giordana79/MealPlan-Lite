@@ -14,6 +14,7 @@ const days = [
 export default function DayMealPicker({ onAdd }) {
   const [day, setDay] = useState("monday");
   const [time, setTime] = useState("lunch");
+
   return (
     <div style={{ marginTop: 8 }}>
       <select value={day} onChange={(e) => setDay(e.target.value)}>
